@@ -1,0 +1,30 @@
+/* src/components/AboutUs.css */
+.about-us-container {
+    padding: 5px;
+    max-width: 80%;
+    margin: 0 auto;
+    text-align: left;
+  }
+  
+  .about-us-container h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+  
+  .about-us-container p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  
+  .about-us-container ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .about-us-container ul li {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+  }
+  
