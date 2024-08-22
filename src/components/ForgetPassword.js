@@ -1,6 +1,7 @@
 import React, { useContext, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import alertContext from '../context/notes/alertContext';
+require('dotenv').config();
 
 export default function ForgetPassword() {
     const navigate = useNavigate();
@@ -11,11 +12,12 @@ export default function ForgetPassword() {
 
     const [credentials, setCredentials] = useState({ email: "", otp: "" });
     const { email, otp } = credentials;
+    const API_URL = process.env.REACT_APP_API_URL;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         //api request for verification of otp
-        const response = await fetch('http://localhost:5000/api/forgetpwd/verify-otp', {
+        const response = await fetch(`${API_URL}/forgetpwd/verify-otp`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -35,7 +37,7 @@ export default function ForgetPassword() {
 
     const handleClick = async (e) => {
         e.preventDefault();
-        const response = await fetch('http://localhost:5000/api/forgetpwd/request-otp', {
+        const response = await fetch(`${API_URL}/forgetpwd/request-otp`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

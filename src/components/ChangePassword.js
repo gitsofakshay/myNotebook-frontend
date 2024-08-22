@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import alertContext from '../context/notes/alertContext';
+require('dotenv').config();
 
 export default function ChangePassword() {
     const navigate = useNavigate();
@@ -9,11 +10,12 @@ export default function ChangePassword() {
 
     const [credentials, setCredentials] = useState({ email: "", newPassword: "", cPassword: "" });
     const { email, newPassword, cPassword } = credentials;
+    const API_URL = process.env.REACT_APP_API_URL;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (newPassword === cPassword) {
-            const response = await fetch('http://localhost:5000/api/forgetpwd/changepassword', {
+            const response = await fetch(`${API_URL}/forgetpwd/changepassword`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

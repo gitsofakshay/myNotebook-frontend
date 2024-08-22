@@ -1,18 +1,20 @@
 import React , {useContext, useState} from 'react'
 import {useNavigate} from 'react-router-dom';
 import alertContext from '../context/notes/alertContext';
+require('dotenv').config();
 
 export default function Login() {
     const navigate = useNavigate();
     const context = useContext(alertContext);
     const {showAlert} = context;
 
+    const API_URL = process.env.REACT_APP_API_URL;
     const [credentials, setCredentials] = useState({email: "", password: ""});
 
     const handleSubmit = async(e) => {
         e.preventDefault();
 
-        const response = await fetch('http://localhost:5000/api/auth/login', {
+        const response = await fetch(`${API_URL}/auth/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

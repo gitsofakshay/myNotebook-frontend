@@ -1,12 +1,13 @@
 import NoteContext from "./noteContext";
 import { useState, useContext } from "react";
 import alertContext from './alertContext';
+require('dotenv').config();
 
 const NoteState = (props) => {
     const context = useContext(alertContext);
     const { showAlert } = context;
 
-    const host = 'http://localhost:5000';
+    const API_URL = process.env.REACT_APP_API_URL;
     const initialNotes = [];
 
     //state that contains all notes
@@ -15,7 +16,7 @@ const NoteState = (props) => {
     //Get all notes
     const getNote = async () => {
         //API CALL
-        const response = await fetch(`${host}/api/notes/fetchallnotes`, {
+        const response = await fetch(`${API_URL}/notes/fetchallnotes`, {
             method: "GET",
             headers: {
                 "auth-token": localStorage.getItem('token')
@@ -28,7 +29,7 @@ const NoteState = (props) => {
     //Add a Notes
     const addNote = async (title, description, tag) => {
         // API CALL
-        const response = await fetch(`${host}/api/notes/addnotes`, {
+        const response = await fetch(`${API_URL}/notes/addnotes`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -53,7 +54,7 @@ const NoteState = (props) => {
     //Delete a Notes
     const deleteNote = async (id) => {
         //API CALL
-        const response = await fetch(`${host}/api/notes/deletenotes/${id}`, {
+        const response = await fetch(`${API_URL}/notes/deletenotes/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -74,7 +75,7 @@ const NoteState = (props) => {
     //Update a Notes
     const updateNote = async (id, title, description, tag) => {
         //API CALL
-        const response = await fetch(`${host}/api/notes/updatenotes/${id}`, {
+        const response = await fetch(`${API_URL}/notes/updatenotes/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

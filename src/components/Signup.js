@@ -1,6 +1,7 @@
 import React, { useState, useContext, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import alertContext from '../context/notes/alertContext';
+require('dotenv').config();
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -11,11 +12,12 @@ export default function Signup() {
 
   const [credentials, setCredentials] = useState({ name: "", email: "", password: "", cpassword: "", otp: "" });
   const { name, email, password, cpassword, otp } = credentials;
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     //api request for verification of otp
-    const response2 = await fetch('http://localhost:5000/api/auth/verifyotp', {
+    const response2 = await fetch(`${API_URL}/auth/verifyotp`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,7 +30,7 @@ export default function Signup() {
       showAlert('OTP verifiction is successful', 'success');
       refClose.current.click();
       //api request for create user account
-      const response3 = await fetch('http://localhost:5000/api/auth/createuser', {
+      const response3 = await fetch(`${API_URL}/auth/createuser`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +55,7 @@ export default function Signup() {
     e.preventDefault();
     if (password === cpassword) {
       //api request to send email verification otp
-      const response = await fetch('http://localhost:5000/api/auth/sendemail', {
+      const response = await fetch(`${API_URL}/auth/sendemail`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
