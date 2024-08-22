@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import alertContext from '../context/notes/alertContext';
-require('dotenv').config();
 
 export default function ChangePassword() {
     const navigate = useNavigate();

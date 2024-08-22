@@ -1,7 +1,6 @@
 import React, { useState, useContext, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import alertContext from '../context/notes/alertContext';
-require('dotenv').config();
 
 export default function Signup() {
   const navigate = useNavigate();

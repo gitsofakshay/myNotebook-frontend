@@ -1,7 +1,6 @@
 import NoteContext from "./noteContext";
 import { useState, useContext } from "react";
 import alertContext from './alertContext';
-require('dotenv').config();
 
 const NoteState = (props) => {
     const context = useContext(alertContext);
