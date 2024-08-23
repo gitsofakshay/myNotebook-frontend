@@ -21,7 +21,7 @@ function Navbar() {
         if (hours >= 8 && hours <= 22) {
             keepAlive();
         }
-    }, 600000); // 10-minute interval
+    }, 50000); // 10-minute interval
 
     const handaleLogout = () => {
         localStorage.removeItem('token');

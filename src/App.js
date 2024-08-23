@@ -10,16 +10,22 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import ForgetPassword from './components/ForgetPassword';
 import ChangePassword from './components/ChangePassword';
+import Loading from './components/Loading';
+import noteContext from './context/notes/noteContext';
 
 function App() {
   const context = useContext(alertContext);
   const { alert } = context;
+  const context2 = useContext(noteContext);
+  const {loading} = context2;
+
   return (
     <>
       <BrowserRouter>
         <Navbar />
         <Alert alert={alert} />
         <div className='container'>
+        {loading && <Loading />}
           <Routes>
             <Route exact path='/' element={<Home />}></Route>
             <Route exact path='/about' element={<About />}></Route>

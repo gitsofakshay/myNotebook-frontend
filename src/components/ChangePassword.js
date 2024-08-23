@@ -1,11 +1,14 @@
 import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import alertContext from '../context/notes/alertContext';
+import noteContext from '../context/notes/noteContext';
 
 export default function ChangePassword() {
     const navigate = useNavigate();
     const context = useContext(alertContext);
     const { showAlert } = context;
+    const context2 = useContext(noteContext);
+    const { setLoading } = context2;
 
     const [credentials, setCredentials] = useState({ email: "", newPassword: "", cPassword: "" });
     const { email, newPassword, cPassword } = credentials;
@@ -14,6 +17,7 @@ export default function ChangePassword() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (newPassword === cPassword) {
+            setLoading(true);
             const response = await fetch(`${API_URL}/forgetpwd/changepassword`, {
                 method: 'POST',
                 headers: {
@@ -23,6 +27,7 @@ export default function ChangePassword() {
             });
 
             const jason = await response.json();
+            setLoading(false);
             if (jason.success) {
                 showAlert(jason.message, 'success');
                 navigate('/login');

@@ -1,11 +1,14 @@
 import React, { useState, useContext, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import alertContext from '../context/notes/alertContext';
+import noteContext from '../context/notes/noteContext';
 
 export default function Signup() {
   const navigate = useNavigate();
   const context = useContext(alertContext);
   const { showAlert } = context;
+  const context2 = useContext(noteContext);
+  const { setLoading } = context2;
   const ref = useRef(null);
   const refClose = useRef(null);
 
@@ -16,6 +19,7 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     //api request for verification of otp
+    setLoading(true);
     const response2 = await fetch(`${API_URL}/auth/verifyotp`, {
       method: 'POST',
       headers: {
@@ -38,6 +42,7 @@ export default function Signup() {
       });
 
       const resStatus3 = await response3.json();
+      setLoading(false);
       if (resStatus3.success) {
         //Redirect to the login page
         showAlert('Account created successfully!', 'success');
@@ -46,6 +51,7 @@ export default function Signup() {
         showAlert(resStatus3.error, 'danger');
       }
     } else {
+      setLoading(false);
       showAlert(resStatus2.error, 'danger');
     }
   }
@@ -54,6 +60,7 @@ export default function Signup() {
     e.preventDefault();
     if (password === cpassword) {
       //api request to send email verification otp
+      setLoading(true);
       const response = await fetch(`${API_URL}/auth/sendemail`, {
         method: "POST",
         headers: {
@@ -64,6 +71,7 @@ export default function Signup() {
       console.log(email);
       const resStatus = await response.json();
       console.log(resStatus.success);
+      setLoading(false);
       if (resStatus.success) {
         showAlert('OTP has been sent to entered email address', 'success');
         ref.current.click();

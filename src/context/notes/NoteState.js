@@ -11,10 +11,12 @@ const NoteState = (props) => {
 
     //state that contains all notes
     const [notes, setNotes] = useState(initialNotes)
+    const [loading, setLoading] = useState(false);
 
     //Get all notes
     const getNote = async () => {
         //API CALL
+        setLoading(true);
         const response = await fetch(`${API_URL}/notes/fetchallnotes`, {
             method: "GET",
             headers: {
@@ -22,12 +24,14 @@ const NoteState = (props) => {
             },
         });
         const json = await response.json();
+        setLoading(false);
         setNotes(json);            
     }
 
     //Add a Notes
     const addNote = async (title, description, tag) => {
         // API CALL
+        setLoading(true);
         const response = await fetch(`${API_URL}/notes/addnotes`, {
             method: "POST",
             headers: {
@@ -42,6 +46,7 @@ const NoteState = (props) => {
         });
 
         const note = await response.json();
+        setLoading(false);
         if (note.success) {
             setNotes(notes.concat(note.savedNote));
             showAlert('Note is added successfully', 'success');
@@ -53,6 +58,7 @@ const NoteState = (props) => {
     //Delete a Notes
     const deleteNote = async (id) => {
         //API CALL
+        setLoading(true);
         const response = await fetch(`${API_URL}/notes/deletenotes/${id}`, {
             method: "DELETE",
             headers: {
@@ -62,9 +68,9 @@ const NoteState = (props) => {
 
         });
         const json = await response.json();
-
         if (json.success) {
             const newNotes = notes.filter((note) => { return note._id !== id });
+            setLoading(false);
             setNotes(newNotes);
             showAlert('Note is deleted successfully', 'success');
         } else {
@@ -74,6 +80,7 @@ const NoteState = (props) => {
     //Update a Notes
     const updateNote = async (id, title, description, tag) => {
         //API CALL
+        setLoading(true);
         const response = await fetch(`${API_URL}/notes/updatenotes/${id}`, {
             method: "PUT",
             headers: {
@@ -95,6 +102,7 @@ const NoteState = (props) => {
                     break;
                 }
             }
+            setLoading(false);
             setNotes(newNotes);
             showAlert('Note is updated successfully', 'success');
         } else {
@@ -103,7 +111,7 @@ const NoteState = (props) => {
     }
 
     return (
-        <NoteContext.Provider value={{ notes, addNote, deleteNote, updateNote, getNote }}>
+        <NoteContext.Provider value={{ notes, loading, setLoading, addNote, deleteNote, updateNote, getNote }}>
             {props.children}
         </NoteContext.Provider>
     )

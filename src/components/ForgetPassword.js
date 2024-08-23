@@ -1,11 +1,14 @@
 import React, { useContext, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import alertContext from '../context/notes/alertContext';
+import noteContext from '../context/notes/noteContext';
 
 export default function ForgetPassword() {
     const navigate = useNavigate();
     const context = useContext(alertContext);
     const { showAlert } = context;
+    const context2 = useContext(noteContext);
+    const { setLoading } = context2;
     const ref = useRef(null);
     const refClose = useRef(null);
 
@@ -16,6 +19,7 @@ export default function ForgetPassword() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         //api request for verification of otp
+        setLoading(true);
         const response = await fetch(`${API_URL}/forgetpwd/verify-otp`, {
             method: 'POST',
             headers: {
@@ -25,6 +29,7 @@ export default function ForgetPassword() {
         });
 
         const resStatus = await response.json();
+        setLoading(false);
         if (resStatus.success) {
             refClose.current.click();
             showAlert(resStatus.message, 'success');
@@ -36,6 +41,7 @@ export default function ForgetPassword() {
 
     const handleClick = async (e) => {
         e.preventDefault();
+        setLoading(true);
         const response = await fetch(`${API_URL}/forgetpwd/request-otp`, {
             method: "POST",
             headers: {
@@ -45,6 +51,7 @@ export default function ForgetPassword() {
         });
 
         const jason = await response.json();
+        setLoading(false);
         if (jason.success) {
             showAlert(jason.message, 'success');
             ref.current.click();

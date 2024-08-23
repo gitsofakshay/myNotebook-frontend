@@ -1,18 +1,21 @@
 import React , {useContext, useState} from 'react'
 import {useNavigate} from 'react-router-dom';
 import alertContext from '../context/notes/alertContext';
+import noteContext from '../context/notes/noteContext';
 
 export default function Login() {
     const navigate = useNavigate();
     const context = useContext(alertContext);
     const {showAlert} = context;
+    const context2 = useContext(noteContext);
+    const {setLoading} = context2;
 
     const API_URL = process.env.REACT_APP_API_URL;
     const [credentials, setCredentials] = useState({email: "", password: ""});
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-
+        setLoading(true);
         const response = await fetch(`${API_URL}/auth/login`, {
             method: "POST",
             headers: {
@@ -22,6 +25,7 @@ export default function Login() {
         });
         
         const jason = await response.json();
+        setLoading(false);
         if (jason.success) {
             //Save the auth token and redirect
             localStorage.setItem('token',jason.authToken)
