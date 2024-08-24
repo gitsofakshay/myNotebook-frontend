@@ -1,27 +1,9 @@
 import { React } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-const API_URL = process.env.REACT_APP_API_URL;
 
 function Navbar() {
     let location = useLocation();
     const navigate = useNavigate();
-
-    const keepAlive = () => {
-        // Ping a lightweight endpoint
-        fetch(`${API_URL}/keep-alive`)
-            .then(response => response.json())
-            .then(data => console.log('Keep-alive response:', data))
-            .catch(error => console.error('Error:', error));
-    };
-
-    // Schedule keep-alive during active hours (e.g., 8 AM to 10 PM IST)
-    setInterval(() => {
-        const now = new Date();
-        const hours = new Date(now.getTime() + (5.5 * 60 * 60 * 1000));
-        if (hours >= 8 && hours <= 22) {
-            keepAlive();
-        }
-    }, 50000); // 10-minute interval
 
     const handaleLogout = () => {
         localStorage.removeItem('token');
